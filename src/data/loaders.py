@@ -91,6 +91,20 @@ def load_adita_lad(
         except (ValueError, KeyError):
             continue
 
+    # Auto-detect keys from the actual translation dict (handles dataset schema drift)
+    if "translation" in ds.column_names:
+        sample_keys = list(ds[0]["translation"].keys())
+        logger.info("ADIta_Lad: auto-detecting keys from translation dict: %s", sample_keys)
+        ita_key = next((k for k in sample_keys if "ita" in k.lower() or k == "it"), None)
+        lad_key = next((k for k in sample_keys if "lld" in k.lower() or "lad" in k.lower()), None)
+        if ita_key and lad_key:
+            raw = _extract_translation_pairs(ds, ita_key, lad_key)
+            logger.info(
+                "ADIta_Lad: %d raw pairs loaded (auto-detected keys: '%s', '%s')",
+                len(raw), ita_key, lad_key,
+            )
+            return preprocess_pairs(raw, tokenizer=tokenizer)
+
     raise RuntimeError(
         f"Could not parse ADIta_Lad columns from {hf_repo}. "
         f"Columns found: {ds.column_names}. Inspect the dataset and update key variants."
