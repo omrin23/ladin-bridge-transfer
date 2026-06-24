@@ -116,7 +116,7 @@ def prepare_model_and_tokenizer(
 
     dtype = torch.float16 if device == "cuda" else torch.float32
     logger.info("Loading model: %s (device=%s, dtype=%s)", model_name, device, dtype)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_name, torch_dtype=dtype, cache_dir=cache_dir)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name, dtype=dtype, cache_dir=cache_dir)
 
     if ladin_added:
         model.resize_token_embeddings(len(tokenizer))

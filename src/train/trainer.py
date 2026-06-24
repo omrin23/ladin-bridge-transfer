@@ -160,7 +160,7 @@ def build_trainer(
         args=args,
         train_dataset=train_dataset,
         data_collator=collator,
-        tokenizer=tokenizer,
+        processing_class=tokenizer,
     )
 
 
