@@ -1,6 +1,6 @@
 # Colab pre-installs these at newer versions — use >= to avoid ABI-breaking downgrades
 torch>=2.3.1
-numpy>=1.26.4
+numpy>=2.0
 scipy>=1.14.0
 scikit-learn>=1.5.1
 pandas>=2.2.2
