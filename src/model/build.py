@@ -84,6 +84,7 @@ def prepare_model_and_tokenizer(
     lora_dropout: float | None = None,
     target_modules: list[str] | None = None,
     device: str | None = None,
+    cache_dir: str | None = None,
 ) -> Tuple[AutoModelForSeq2SeqLM, NllbTokenizer]:
     """
     Single entry point for all downstream code.
@@ -97,7 +98,7 @@ def prepare_model_and_tokenizer(
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
     logger.info("Loading tokenizer: %s", model_name)
-    tokenizer = NllbTokenizer.from_pretrained(model_name)
+    tokenizer = NllbTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
 
     ladin_added = False
     if _lld_is_native(tokenizer):
@@ -114,7 +115,7 @@ def prepare_model_and_tokenizer(
 
     dtype = torch.float16 if device == "cuda" else torch.float32
     logger.info("Loading model: %s (device=%s, dtype=%s)", model_name, device, dtype)
-    model = AutoModelForSeq2SeqLM.from_pretrained(model_name, torch_dtype=dtype)
+    model = AutoModelForSeq2SeqLM.from_pretrained(model_name, torch_dtype=dtype, cache_dir=cache_dir)
 
     if ladin_added:
         model.resize_token_embeddings(len(tokenizer))
