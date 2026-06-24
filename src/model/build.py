@@ -23,8 +23,9 @@ logger = logging.getLogger(__name__)
 
 
 def _lld_is_native(tokenizer: NllbTokenizer) -> bool:
-    """Return True if lld_Latn already exists in the tokenizer's special tokens."""
-    return LADIN in tokenizer.additional_special_tokens
+    """Return True if lld_Latn already exists in the tokenizer vocabulary."""
+    lld_id = tokenizer.convert_tokens_to_ids(LADIN)
+    return lld_id != tokenizer.unk_token_id
 
 
 def _seed_embedding_from_ita(
