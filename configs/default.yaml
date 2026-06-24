@@ -17,11 +17,11 @@ training:
   grad_accum: 2
   learning_rate: 2.0e-4
   epochs_bridge: 1
-  epochs_ladin: 3
+  epochs_ladin: 1
   beam_size: 5
   max_seq_len: 128
   seed: 42
-  subset_size: 18139
+  subset_size: 500
 
 data:
   ladin_hf_repo: "sfrontull/lld_valbadia-ita"
