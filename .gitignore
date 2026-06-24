@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# HuggingFace / model cache
+*.bin
+*.safetensors
+*.pt
+*.pth
+hf_cache/
+
+# Results & checkpoints (generated at runtime)
+results/*.json
+results/*.csv
+results/*.txt
+checkpoints/
+
+# macOS
+.DS_Store
+
+# Secrets
+.env
+*.token

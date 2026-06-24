@@ -1,0 +1,40 @@
+model_name: "facebook/nllb-200-distilled-600M"
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.1
+  target_modules:
+    - "q_proj"
+    - "v_proj"
+    - "k_proj"
+    - "out_proj"
+    - "fc1"
+    - "fc2"
+
+training:
+  batch_size: 16
+  grad_accum: 2
+  learning_rate: 2.0e-4
+  epochs_bridge: 1
+  epochs_ladin: 3
+  beam_size: 5
+  max_seq_len: 128
+  seed: 42
+  subset_size: 18139
+
+data:
+  ladin_hf_repo: "sfrontull/lld_valbadia-ita"
+  flores_hf_repo: "openlanguagedata/flores_plus"
+  # SDLad-Ita (synthetic, ablation only): resolve HF repo before ablation step
+  synth_hf_repo: null
+  # OPUS-100 HF dataset configs (alphabetical pair naming)
+  opus_configs:
+    fra_Latn: "fr-it"
+    spa_Latn: "es-it"
+    por_Latn: "it-pt"
+
+paths:
+  drive_root: "/content/drive/MyDrive/ladin-bridge-transfer"
+  results_dir: "results"
+  checkpoints_dir: "checkpoints"
