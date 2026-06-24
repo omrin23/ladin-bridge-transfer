@@ -130,7 +130,10 @@ def build_trainer(
 ) -> Seq2SeqTrainer:
     """Return a Seq2SeqTrainer configured for LoRA fine-tuning."""
     if fp16 is None:
-        fp16 = torch.cuda.is_available()
+        # Model is loaded in fp16; PEFT handles dtype casting internally.
+        # Enabling the trainer's own GradScaler (fp16=True) causes it to try
+        # unscaling fp16 gradients, which PyTorch forbids. Keep it off.
+        fp16 = False
 
     args = Seq2SeqTrainingArguments(
         output_dir=str(output_dir),
