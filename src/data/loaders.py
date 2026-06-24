@@ -162,7 +162,17 @@ def load_flores_devtest(
     for lang in langs:
         logger.info("Loading FLORES+ devtest: %s", lang)
         ds = load_dataset(hf_repo, lang, split="devtest", cache_dir=cache_dir)
-        sentences = [row["sentence"] for row in ds]
+        # FLORES+ uses "sentence" in older releases, "text" in openlanguagedata/flores_plus
+        text_col = next(
+            (c for c in ("sentence", "text") if c in ds.column_names),
+            None,
+        )
+        if text_col is None:
+            raise KeyError(
+                f"FLORES+ devtest for '{lang}' has no 'sentence' or 'text' column. "
+                f"Available columns: {ds.column_names}"
+            )
+        sentences = [row[text_col] for row in ds]
         result[lang] = sentences
         logger.info("  %s: %d sentences", lang, len(sentences))
 
