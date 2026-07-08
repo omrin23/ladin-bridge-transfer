@@ -203,7 +203,7 @@ def load_flores_devtest(
 
 
 # ---------------------------------------------------------------------------
-# OPUS-100 bridge pairs
+# OPUS Books bridge pairs
 # ---------------------------------------------------------------------------
 
 def load_opus_bridge(
@@ -230,7 +230,16 @@ def load_opus_bridge(
     it_key = OPUS_LANG_KEYS[ITA]
 
     logger.info("Loading OPUS Books bridge corpus: %s (config=%s)", bridge_lang, config_name)
-    ds = load_dataset("Helsinki-NLP/opus_books", config_name, split="train", cache_dir=cache_dir)
+    # Load the config's parquet files directly instead of by config name:
+    # load_dataset("Helsinki-NLP/opus_books", config_name) resolves builder configs
+    # from cached dataset metadata, which on Kaggle is poisoned by an earlier
+    # OPUS-100 download and raises "BuilderConfig 'fr-it' not found".
+    ds = load_dataset(
+        "parquet",
+        data_files=f"hf://datasets/Helsinki-NLP/opus_books/{config_name}/train-*.parquet",
+        split="train",
+        cache_dir=cache_dir,
+    )
 
     raw = _extract_translation_pairs(ds, bridge_key, it_key)
     logger.info("OPUS Books %s: %d raw pairs before preprocessing", config_name, len(raw))
