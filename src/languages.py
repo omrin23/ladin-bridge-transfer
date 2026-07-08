@@ -7,10 +7,10 @@ from dataclasses import dataclass
 # NLLB language codes
 LADIN: str = "lld_Latn"  # target low-resource language (added + seeded from Italian)
 ITA: str = "ita_Latn"    # fixed anchor / pivot — NOT a bridge condition
-ENG: str = "eng_Latn"    # bridge training language (OPUS-100 en-it is only available Italian-paired corpus)
-FRA: str = "fra_Latn"    # evaluation language
-SPA: str = "spa_Latn"    # evaluation language
-POR: str = "por_Latn"    # evaluation language
+ENG: str = "eng_Latn"    # available in OPUS Books (en-it) but not used as bridge condition
+FRA: str = "fra_Latn"    # bridge language (OPUS Books fr-it) + secondary evaluation
+SPA: str = "spa_Latn"    # bridge language (OPUS Books es-it) + secondary evaluation
+POR: str = "por_Latn"    # bridge language (OPUS Books it-pt) + secondary evaluation
 
 # All five languages used in evaluation
 EVAL_LANGS: tuple[str, ...] = (LADIN, ITA, FRA, SPA, POR)
@@ -25,11 +25,15 @@ LADIN_FLORES_VARIETY: str = "lld_Latn"
 CONDITIONS: tuple[str, ...] = (
     "zero_shot",
     "direct",
-    "bridge_en",
+    "bridge_fr",
+    "bridge_es",
+    "bridge_pt",
 )
 
 BRIDGE_CONDITION_MAP: dict[str, str] = {
-    "bridge_en": ENG,
+    "bridge_fr": FRA,
+    "bridge_es": SPA,
+    "bridge_pt": POR,
 }
 
 

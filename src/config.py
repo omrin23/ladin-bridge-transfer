@@ -38,12 +38,14 @@ LADIN_HF_REPO: str = "sfrontull/lld_valbadia-ita"
 FLORES_HF_REPO: str = "openlanguagedata/flores_plus"
 SYNTH_HF_REPO: str | None = None  # SDLad-Ita; confirm HF repo before ablation step
 
-# OPUS-100 config for the English bridge (only Italian-paired config available)
+# OPUS Books configs for romance-language bridges (Helsinki-NLP/opus_books)
 OPUS_CONFIGS: dict[str, str] = {
-    ENG: "en-it",
+    FRA: "fr-it",
+    SPA: "es-it",
+    POR: "it-pt",
 }
 
-# 2-letter keys used inside the OPUS-100 `translation` column
+# 2-letter keys used inside the OPUS Books `translation` column
 OPUS_LANG_KEYS: dict[str, str] = {
     ENG: "en",
     ITA: "it",

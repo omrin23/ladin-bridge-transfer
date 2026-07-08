@@ -3,7 +3,7 @@ Dataset loaders for all corpora used in the project:
   - ADIta_Lad  (sfrontull/lld_valbadia-ita) — authentic Ladin↔Italian
   - SDLad-Ita  (synthetic, ablation only)
   - FLORES+    (openlanguagedata/flores_plus) — multi-parallel eval
-  - OPUS Books (Helsinki-NLP/opus_books) — bridge language pairs (fr-it, es-it, it-pt)
+  - OPUS Books (Helsinki-NLP/opus_books) — romance bridge pairs (fr-it, es-it, it-pt)
 """
 
 from __future__ import annotations
@@ -229,16 +229,16 @@ def load_opus_bridge(
     bridge_key = OPUS_LANG_KEYS[bridge_lang]
     it_key = OPUS_LANG_KEYS[ITA]
 
-    logger.info("Loading OPUS-100 bridge corpus: %s (config=%s)", bridge_lang, config_name)
-    ds = load_dataset("Helsinki-NLP/opus-100", config_name, split="train", cache_dir=cache_dir)
+    logger.info("Loading OPUS Books bridge corpus: %s (config=%s)", bridge_lang, config_name)
+    ds = load_dataset("Helsinki-NLP/opus_books", config_name, split="train", cache_dir=cache_dir)
 
     raw = _extract_translation_pairs(ds, bridge_key, it_key)
-    logger.info("OPUS-100 %s: %d raw pairs before preprocessing", config_name, len(raw))
+    logger.info("OPUS Books %s: %d raw pairs before preprocessing", config_name, len(raw))
 
     cleaned = preprocess_pairs(raw, tokenizer=tokenizer)
     subsampled = deterministic_subsample(cleaned, n=n, seed=seed)
     logger.info(
-        "OPUS-100 %s: %d pairs after preprocessing + subsample to %d",
+        "OPUS Books %s: %d pairs after preprocessing + subsample to %d",
         config_name, len(cleaned), len(subsampled),
     )
     return subsampled

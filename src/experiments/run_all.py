@@ -43,7 +43,9 @@ from src.analysis.aggregate import aggregate
 logger = logging.getLogger(__name__)
 
 BRIDGE_LANGS: dict[str, str] = {
-    "bridge_en": ENG,  # OPUS-100 en-it; only Italian-paired corpus available
+    "bridge_fr": FRA,  # OPUS Books fr-it
+    "bridge_es": SPA,  # OPUS Books es-it
+    "bridge_pt": POR,  # OPUS Books it-pt
 }
 
 
