@@ -37,7 +37,8 @@ LADIN_HF_REPO: str = "sfrontull/lld_valbadia-ita"
 FLORES_HF_REPO: str = "openlanguagedata/flores_plus"
 SYNTH_HF_REPO: str | None = None  # SDLad-Ita; confirm HF repo before ablation step
 
-# OPUS-100 HF dataset config names (alphabetical 2-letter pair codes)
+# OPUS Books HF dataset config names (alphabetical 2-letter pair codes)
+# opus_books has direct Romance↔Italian pairs; opus-100 is English-centric only
 OPUS_CONFIGS: dict[str, str] = {
     FRA: "fr-it",
     SPA: "es-it",
