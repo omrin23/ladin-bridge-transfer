@@ -22,7 +22,7 @@ from typing import Optional
 import torch
 
 from src.config import (
-    MODEL_NAME, LADIN, ITA, FRA, SPA, POR,
+    MODEL_NAME, LADIN, ITA, ENG, FRA, SPA, POR,
     SEED, SUBSET_SIZE, EPOCHS_BRIDGE, EPOCHS_LADIN,
     LORA_R, LORA_ALPHA, LORA_DROPOUT, TARGET_MODULES,
     LEARNING_RATE, BATCH_SIZE, GRAD_ACCUM,
@@ -43,9 +43,7 @@ from src.analysis.aggregate import aggregate
 logger = logging.getLogger(__name__)
 
 BRIDGE_LANGS: dict[str, str] = {
-    "bridge_fr": FRA,
-    "bridge_es": SPA,
-    "bridge_pt": POR,
+    "bridge_en": ENG,  # OPUS-100 en-it; only Italian-paired corpus available
 }
 
 

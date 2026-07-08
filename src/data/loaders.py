@@ -229,8 +229,8 @@ def load_opus_bridge(
     bridge_key = OPUS_LANG_KEYS[bridge_lang]
     it_key = OPUS_LANG_KEYS[ITA]
 
-    logger.info("Loading OPUS bridge corpus: %s (config=%s)", bridge_lang, config_name)
-    ds = load_dataset("Helsinki-NLP/opus_books", config_name, split="train", cache_dir=cache_dir)
+    logger.info("Loading OPUS-100 bridge corpus: %s (config=%s)", bridge_lang, config_name)
+    ds = load_dataset("Helsinki-NLP/opus-100", config_name, split="train", cache_dir=cache_dir)
 
     raw = _extract_translation_pairs(ds, bridge_key, it_key)
     logger.info("OPUS-100 %s: %d raw pairs before preprocessing", config_name, len(raw))

@@ -28,6 +28,7 @@ SUBSET_SIZE: int = 18139
 # NLLB language codes
 LADIN: str = "lld_Latn"
 ITA: str = "ita_Latn"
+ENG: str = "eng_Latn"
 FRA: str = "fra_Latn"
 SPA: str = "spa_Latn"
 POR: str = "por_Latn"
@@ -37,20 +38,18 @@ LADIN_HF_REPO: str = "sfrontull/lld_valbadia-ita"
 FLORES_HF_REPO: str = "openlanguagedata/flores_plus"
 SYNTH_HF_REPO: str | None = None  # SDLad-Ita; confirm HF repo before ablation step
 
-# OPUS Books HF dataset config names (alphabetical 2-letter pair codes)
-# opus_books has direct Romance↔Italian pairs; opus-100 is English-centric only
+# OPUS-100 config for the English bridge (only Italian-paired config available)
 OPUS_CONFIGS: dict[str, str] = {
-    FRA: "fr-it",
-    SPA: "es-it",
-    POR: "it-pt",
+    ENG: "en-it",
 }
 
 # 2-letter keys used inside the OPUS-100 `translation` column
 OPUS_LANG_KEYS: dict[str, str] = {
+    ENG: "en",
+    ITA: "it",
     FRA: "fr",
     SPA: "es",
     POR: "pt",
-    ITA: "it",
 }
 
 # ---------------------------------------------------------------------------
