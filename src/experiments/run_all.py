@@ -16,6 +16,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+import shutil
 from pathlib import Path
 from typing import Optional
 
@@ -56,6 +57,18 @@ def _result_exists(results_dir: Path, condition: str, data_setting: str) -> bool
         logger.info("Skipping %s/%s — result already exists.", condition, data_setting)
         return True
     return False
+
+
+def _free_checkpoint(checkpoint_dir: Path) -> None:
+    """Delete a condition's checkpoint dir once its scores are saved.
+
+    Each adapter embeds the full resized embedding matrix (~2 GB) and is not
+    needed for results — only the JSON scores are. Leaving them on disk
+    accumulates across conditions and overflows Kaggle's ~20 GB working disk.
+    """
+    if checkpoint_dir.exists():
+        shutil.rmtree(checkpoint_dir, ignore_errors=True)
+        logger.info("Freed checkpoint dir to save disk: %s", checkpoint_dir)
 
 
 def _make_run_config(
@@ -180,6 +193,7 @@ def run_experiment(
         )
         del model_d, tok_d
         torch.cuda.empty_cache()
+        _free_checkpoint(checkpoints_dir / "direct")
 
     # ------------------------------------------------------------------
     # Bridge conditions
@@ -221,6 +235,7 @@ def run_experiment(
             )
             del model_b, tok_b
             torch.cuda.empty_cache()
+            _free_checkpoint(checkpoints_dir / condition_name)
 
     # ------------------------------------------------------------------
     # Similarity analysis
