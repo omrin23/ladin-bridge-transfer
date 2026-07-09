@@ -119,8 +119,11 @@ def _encode_sentences(
                 max_length=128,
             ).to(device)
 
-            # Use the encoder only (no decoder pass needed)
-            encoder_out = model.model.encoder(**enc)
+            # Use the encoder only (no decoder pass needed).
+            # get_encoder() resolves correctly whether `model` is a raw
+            # M2M100ForConditionalGeneration or a PEFT-wrapped one — unlike
+            # model.model.encoder, which breaks on the PEFT wrapper.
+            encoder_out = model.get_encoder()(**enc)
             pooled = _mean_pool(encoder_out.last_hidden_state, enc["attention_mask"])
             all_embeds.append(pooled.cpu().float().numpy())
 
